@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import evchargers
 
 class evchargersTests: XCTestCase {
 
