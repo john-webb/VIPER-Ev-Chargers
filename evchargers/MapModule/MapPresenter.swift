@@ -13,9 +13,9 @@ typealias LocationViewModel = (name:String, address:String?, coordinate : CLLoca
 class MapPresenter {
     let pageTitle = "Map Page"
     
-    weak var view : MapViewController?
-    var router : MapRouter?
-    var interactor : MapInteractor?
+    weak var view : MapViewInterface?
+    var router : MapRouterInterface?
+    var interactor : MapInteractorInterface?
     var locationViewModels : [LocationViewModel]?
 }
 

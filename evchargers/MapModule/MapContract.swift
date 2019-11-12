@@ -8,7 +8,7 @@
 
 
 // MapPresenter->MapView
-protocol MapViewInterface {
+protocol MapViewInterface : class{
     func setupInitialView()
     func drawChargeLocations()
     func showLoading()
@@ -17,7 +17,7 @@ protocol MapViewInterface {
 }
 
 
-protocol MapPresenterInterface {
+protocol MapPresenterInterface : class {
     // MapView->MapPresenter
     func notifyViewLoaded()
     func notifyViewWillAppear()
@@ -29,13 +29,13 @@ protocol MapPresenterInterface {
     func locationsFetchFailed(with errorMessage:String)
 }
 
-protocol MapRouterInterface {
+protocol MapRouterInterface : class {
     // MapPresenter -> MapRouter
     func performSegue(with identifier:String)
     func presentPopup(with message:String)
 }
 
-protocol MapInteractorInterface {
+protocol MapInteractorInterface : class {
     // MapPresenter->MapInteractor
     func fetchLocations()
 }
