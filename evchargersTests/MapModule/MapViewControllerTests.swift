@@ -7,28 +7,91 @@
 //
 
 import XCTest
+import MapKit
 
 class MapViewControllerTests : XCTestCase {
     
     
+    class MockPresenter : MapPresenterInterface {
+        var viewLoaded = false
+        var viewWillAppear = false
+        var selectedMarker = false
+        var locationFetched = false
+        var locationFailed = false
+        var locationViewModels : [LocationViewModel]?
+        
+        func notifyViewLoaded() {
+            viewLoaded = true
+        }
+        
+        func notifyViewWillAppear() {
+            viewWillAppear = true
+        }
+        
+        func markerSelected() {
+            selectedMarker = true
+        }
+        
+        func getLocationViewModels() -> [LocationViewModel]? {
+            return locationViewModels
+        }
+        
+        
+        func locationsFetched(locationList: [Location]) {
+            locationFetched = true
+        }
+        
+        func locationsFetchFailed(with errorMessage: String) {
+            locationFailed = true
+        }
+        
+        
+    }
+    
+    var presenter = MockPresenter()
+    var view : MapViewController?
+    let mapView = MKMapView()
+    
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        view = MapViewController()
+        view?.presenter = presenter
+        view?.mapView = mapView
     }
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testViewDidLoad() {
+        view?.viewDidLoad()
+        XCTAssertTrue(presenter.viewLoaded)
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testViewWillAppear(){
+        view?.viewWillAppear(true)
+        XCTAssertTrue(presenter.viewWillAppear)
     }
-
+    
+    func testScreenTitle(){
+        let screenTitle = "Map"
+        view?.setScreenTitle(with: screenTitle)
+        XCTAssertEqual(view?.title, screenTitle)
+    }
+    
+    func testDrawNoChargeLocations(){
+        presenter.locationViewModels = nil
+        view?.mapView.removeAnnotations(mapView.annotations)
+        view?.drawChargeLocations()
+        XCTAssertEqual(mapView.annotations.count, 0)
+    }
+    
+    func testDrawChargeLocations(){
+        presenter.locationViewModels = [
+            (name: "Test", address: "", coordinate : CLLocationCoordinate2D(latitude: 0, longitude: 0))
+        ]
+        view?.mapView.removeAnnotations(mapView.annotations)
+        view?.drawChargeLocations()
+        XCTAssertEqual(mapView.annotations.count, 1)
+    }
 }

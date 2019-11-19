@@ -13,7 +13,7 @@ typealias LocationViewModel = (name:String, address:String?, coordinate : CLLoca
 class MapPresenter {
     let pageTitle = "Map Page"
     
-    weak var view : MapViewInterface?
+    weak var view : MapViewController?
     var router : MapRouterInterface?
     var interactor : MapInteractorInterface?
     var locationViewModels : [LocationViewModel]?
@@ -35,7 +35,6 @@ extension MapPresenter : MapPresenterInterface{
     }
     
     func markerSelected(){
-        
     }
     
     // MapInteractor -> MapPresenter
