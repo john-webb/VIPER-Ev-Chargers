@@ -19,7 +19,7 @@ class MapRouter: NSObject {
         let router = MapRouter()
         let presenter = MapPresenter()
         let interactor = MapInteractor()
-        let view = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mapViewController") as! MapViewController
+        let view = MapViewController(nibName: "MapView", bundle: nil)
         let nav = UINavigationController.init(rootViewController: view)
         
         // Connect layers
